@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ada yang mau aku tanyain…</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700&display=swap">
+<style>
+:root{
+  --bg1:#fff1f5; --bg2:#ffd6e7; --ink:#3b1f4a; --soft:#7a5a8a; --card:rgba(255,255,255,.78);
+  --pink:#ff5c9d; --gold:#ffc94d; --line:#f3b8d1; --paper:#fffaf0;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg1:#2a1238; --bg2:#4a1d52; --ink:#ffeaf3; --soft:#d9b4e6; --card:rgba(60,25,75,.78); --line:#7a3d8c;}
+}
+html{height:100%}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;font-family:'Nunito',system-ui,sans-serif;color:var(--ink);
+  background:radial-gradient(circle at 20% 10%,var(--bg2),var(--bg1) 60%);background-color:var(--bg1);
+  display:flex;align-items:center;justify-content:center;overflow-x:hidden}
+#hearts{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+main{position:relative;z-index:1;width:min(92vw,460px);margin:24px auto;text-align:center}
+.card{background:var(--card);backdrop-filter:blur(8px);border:2px solid var(--line);border-radius:28px;padding:28px 22px}
+.emoji{font-size:60px;display:inline-block;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(4deg)}}
+h1{font-family:'Fredoka',system-ui,sans-serif;font-weight:600;font-size:clamp(26px,7vw,36px);line-height:1.15;margin:12px 0 8px}
+p{color:var(--soft);line-height:1.55;margin:0 0 20px}
+.row{position:relative;display:flex;gap:14px;justify-content:center;align-items:center;min-height:64px}
+button{font-family:'Fredoka',system-ui,sans-serif;font-size:18px;border:0;border-radius:999px;padding:14px 30px;cursor:pointer;transition:transform .15s}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.yes{background:var(--pink);color:#fff;box-shadow:0 6px 0 #d63a7b}
+.yes:active{transform:translateY(4px);box-shadow:0 2px 0 #d63a7b}
+.no{background:transparent;color:var(--soft);border:2px solid var(--line)}
+.hidden{display:none}
+.small{font-size:13px;margin-top:16px;color:var(--soft)}
+
+/* foto polaroid */
+.polaroid{width:190px;margin:0 auto 14px;background:#fff;padding:10px 10px 30px;border-radius:6px;
+  box-shadow:0 8px 20px rgba(0,0,0,.18);transform:rotate(-3deg);position:relative}
+.polaroid::before{content:"";position:absolute;top:-10px;left:50%;width:70px;height:20px;margin-left:-35px;
+  background:rgba(255,201,77,.75);transform:rotate(3deg)}
+.polaroid img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;border-radius:2px}
+.gif{width:min(100%,260px);border-radius:18px;margin:0 auto 14px;display:block;border:3px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.15)}
+
+/* pilihan slide 2 */
+.choices{display:grid;gap:12px;margin-top:6px}
+.choice{background:#fff;color:#3b1f4a;border:2px solid var(--line);border-radius:20px;padding:16px;font-size:18px}
+.choice small{display:block;font-family:'Nunito',sans-serif;color:#7a5a8a;font-size:14px;margin-top:2px}
+.choice:hover{transform:translateY(-2px);border-color:var(--pink)}
+
+/* tiket */
+.ticket{position:relative;background:var(--paper);color:#3b1f4a;border-radius:18px;text-align:left;
+  box-shadow:0 10px 24px rgba(0,0,0,.18);margin-bottom:16px;overflow:hidden}
+.ticket::before,.ticket::after{content:"";position:absolute;top:96px;width:22px;height:22px;border-radius:50%;background:var(--bg1)}
+.ticket::before{left:-11px}.ticket::after{right:-11px}
+.t-top{display:flex;gap:14px;align-items:center;padding:18px 20px;height:107px;border-bottom:2px dashed #e8c9d6}
+.t-top img{width:64px;height:64px;border-radius:12px;object-fit:cover;flex:none}
+.t-top .ph{width:64px;height:64px;border-radius:12px;background:#ffe0ec;display:grid;place-items:center;font-size:30px;flex:none}
+.t-title{font-family:'Fredoka',sans-serif;font-weight:600;font-size:22px;line-height:1.1}
+.t-sub{font-size:13px;color:#7a5a8a;margin-top:4px}
+.t-body{padding:16px 20px 18px;display:grid;gap:14px}
+.f label{font-size:13px;font-weight:700;color:#7a5a8a;display:block;margin-bottom:6px}
+.f input[type=date]{width:100%;font:inherit;padding:10px 12px;border-radius:12px;border:2px solid #f3b8d1;background:#fff;color:#3b1f4a}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;padding:8px 14px;background:#fff;color:#3b1f4a;border:2px solid #f3b8d1}
+.chip[aria-pressed="true"]{background:var(--pink);border-color:var(--pink);color:#fff}
+.stamp{position:absolute;right:14px;bottom:12px;font-family:'Fredoka',sans-serif;color:#d63a7b;border:2px solid #d63a7b;
+  padding:2px 10px;border-radius:8px;transform:rotate(-10deg);opacity:0;transition:opacity .3s,transform .3s;font-size:14px}
+.stamp.on{opacity:.85;transform:rotate(-10deg) scale(1.05)}
+.wa{display:inline-block;background:#25d366;color:#fff;text-decoration:none;font-family:'Fredoka',sans-serif;font-size:18px;padding:14px 28px;border-radius:999px}
+.wa[aria-disabled="true"]{opacity:.45;pointer-events:none}
+
+/* tombol musik */
+#musicToggle{
+  position:fixed;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);
+  padding:10px 20px;border:none;border-radius:999px;
+  background:#421d6f;color:#fff;font-size:16px;cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,.25);z-index:10;
+}
+#musicToggle:hover{background:#e60073}
+@media (prefers-reduced-motion:reduce){.emoji{animation:none}}
+</style>
+</head>
+<body>
+<canvas id="hearts" aria-hidden="true"></canvas>
+<main>
+  <!-- SLIDE 1 -->
+  <section class="card" id="s1">
+    <div id="photoWrap"></div>
+    <h1 id="title">Hai, ada yang mau aku tanyain…</h1>
+    <p>Mau nggak main bareng aku buat seru-seruan.</p>
+    <div class="row">
+      <button class="yes" id="yes">Mau dong 🤗</button>
+      <button class="no" id="no">Nggak dlu deh</button>
+    </div>
+    <p class="small" id="hint"></p>
+  </section>
+
+  <!-- SLIDE 2 -->
+  <section class="card hidden" id="s2">
+    <div id="gifWrap"></div>
+    <h1>Yeayy!!! Pilih yang kamu suka</h1>
+    <div class="choices">
+      <button class="choice" data-k="chill">🍝 Chill<small>kulineran atau cafe</small></button>
+      <button class="choice" data-k="interaktif">🎮 Interaktif<small>Jalan-jalan, nonton, atau bikin clay</small></button>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: TIKET -->
+  <section class="card hidden" id="s3">
+    <h1 style="margin-top:0">Isi tiketmu ✨</h1>
+    <div class="ticket">
+      <div class="t-top">
+        <div id="tImg"></div>
+        <div>
+          <div class="t-title" id="tTitle">Tiket Chill</div>
+          <div class="t-sub" id="tSum">Belum dipilih</div>
+        </div>
+      </div>
+      <div class="t-body">
+        <div class="f"><label for="tgl">Hari apa kamu kosongnya?</label><input type="date" id="tgl"></div>
+        <div class="f"><label>Jam berapa?</label><div class="chips" id="jam"></div></div>
+        <div class="f"><label>Kita ke mana?</label><div class="chips" id="tempat"></div></div>
+      </div>
+      <div class="stamp" id="stamp">DISETUJUI</div>
+    </div>
+    <a class="wa" id="wa" href="#" target="_blank" rel="noopener" aria-disabled="true">Kirim tiket 💌</a>
+    <p class="small" id="need">Pilih tanggal, jam, dan tempat dulu yaa...</p>
+  </section>
+</main>
+
+<button id="musicToggle">▶ Play Musik</button>
+
+<script>
+/* ====== UBAH BAGIAN INI ====== */
+const NAMA = "FALISHA";            // nama teman kamu (boleh kosong)
+const NOMOR_WA = "6285724960103";  // format internasional: 62 lalu nomor tanpa 0 di depan
+const FOTO_URL = "jpg.jpg";               // link foto, contoh: "foto-kita.jpg"
+const GIF_URL = "hope.gif";                // link GIF, contoh: "lucu.gif"
+const MUSIK_URL = "musik.mp3";     // nama file lagu (kosongkan kalau tidak pakai musik)
+/* ============================= */
+
+const $ = id => document.getElementById(id);
+if (NAMA) $("title").textContent = "Hai " + NAMA + ", ada yang mau aku tanyain…";
+
+/* foto & gif */
+$("photoWrap").innerHTML = FOTO_URL
+  ? '<div class="polaroid"><img src="' + FOTO_URL + '" alt="Foto"></div>'
+  : '<div class="emoji" id="em">🌸</div>';
+$("gifWrap").innerHTML = GIF_URL
+  ? '<img class="gif" src="' + GIF_URL + '" alt="GIF lucu">'
+  : '<div class="emoji">🎉</div>';
+$("tImg").innerHTML = FOTO_URL ? '<img src="' + FOTO_URL + '" alt="">' : '<div class="ph">💌</div>';
+
+/* efek hati melayang */
+const cv = $("hearts"), cx = cv.getContext("2d");
+let W, H, parts = [];
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function resize(){ W = cv.width = innerWidth; H = cv.height = innerHeight; }
+addEventListener("resize", resize); resize();
+const glyphs = ["💕","🌸","✨"];
+function spawn(x, y, burst){
+  parts.push({ x, y,
+    vx: burst ? (Math.random()-.5)*10 : (Math.random()-.5)*.6,
+    vy: burst ? -Math.random()*9-2 : -Math.random()*1.2-.4,
+    g: burst ? .25 : 0,
+    s: burst ? 18+Math.random()*18 : 14+Math.random()*16,
+    life: burst ? 120 : 400, g2: glyphs[Math.random()*glyphs.length|0] });
+}
+function tick(){
+  cx.clearRect(0,0,W,H);
+  if(!reduce && parts.length < 40 && Math.random() < .06) spawn(Math.random()*W, H+20, false);
+  parts = parts.filter(p => p.life > 0 && p.y > -40);
+  for(const p of parts){
+    p.x += p.vx; p.y += p.vy; p.vy += p.g; p.life--;
+    cx.globalAlpha = Math.min(1, p.life/40) * .8;
+    cx.font = p.s + "px serif"; cx.fillText(p.g2, p.x, p.y);
+  }
+  requestAnimationFrame(tick);
+}
+tick();
+function burst(){ for(let i=0;i<90;i++) spawn(W/2, H/2, true); }
+
+/* tombol "Nggak dlu deh": pindah HANYA saat ditekan */
+const no = $("no"), yes = $("yes");
+const excuses = ["Yakin nih? 🥺","Coba pikir lagi…","Aku traktir deh!","Jangan gitu dong…","Tombolnya capek lho"];
+let tries = 0;
+function dodge(e){
+  if(e) e.preventDefault();
+  tries++;
+  no.style.position = "fixed";
+  no.style.left = Math.max(8, Math.random()*(innerWidth-no.offsetWidth-16)) + "px";
+  no.style.top  = Math.max(8, Math.random()*(innerHeight-no.offsetHeight-16)) + "px";
+  $("hint").textContent = excuses[tries % excuses.length];
+  yes.style.transform = "scale(" + Math.min(1.7, 1 + tries*.08) + ")";
+  const em = $("em"); if (em) em.textContent = tries > 4 ? "🥺" : "🌸";
+}
+no.addEventListener("click", dodge);
+
+/* alur */
+function show(id){ ["s1","s2","s3"].forEach(s => $(s).classList.toggle("hidden", s !== id)); }
+yes.addEventListener("click", () => { no.style.display = "none"; burst(); show("s2"); });
+
+const JAM = ["Pagi","Siang","Sore"];
+const TEMPAT = {
+  chill: ["Cafe","Jalan sore","Es krim"],
+  interaktif: ["Nonton","Clay","Nongkrong","Keliling kota"]
+};
+const JUDUL = { chill: "Tiket Chill", interaktif: "Tiket Interaktif" };
+const AJAK  = { chill: "chill bareng", interaktif: "main yang interaktif" };
+
+let jenis = "chill", pilih = {jam:"", tempat:""};
+
+function chips(box, list, key){
+  box.innerHTML = "";
+  list.forEach(t => {
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = t; b.setAttribute("aria-pressed","false");
+    b.addEventListener("click", () => {
+      pilih[key] = t;
+      box.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b));
+      update();
+    });
+    box.appendChild(b);
+  });
+}
+function tglIndo(v){
+  if(!v) return "";
+  return new Date(v + "T00:00:00").toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long"});
+}
+function update(){
+  const tgl = $("tgl").value;
+  const bagian = [tglIndo(tgl), pilih.jam, pilih.tempat].filter(Boolean);
+  $("tSum").textContent = bagian.length ? bagian.join(" · ") : "Belum dipilih";
+  const lengkap = tgl && pilih.jam && pilih.tempat;
+  $("stamp").classList.toggle("on", !!lengkap);
+  $("need").style.display = lengkap ? "none" : "";
+  const wa = $("wa");
+  wa.setAttribute("aria-disabled", lengkap ? "false" : "true");
+  if (lengkap){
+    const pesan = (NAMA ? "Hai, ini " + NAMA + ". " : "") +
+      "Aku mau banget " + AJAK[jenis] + "!\n" +
+      "Hari: " + tglIndo(tgl) + "\nJam: " + pilih.jam + "\nKe mana: " + pilih.tempat;
+    wa.href = NOMOR_WA ? "https://wa.me/" + NOMOR_WA + "?text=" + encodeURIComponent(pesan) : "#";
+    if (!NOMOR_WA) wa.textContent = "Screenshot tiket ini 📸";
+  }
+}
+$("tgl").min = new Date().toISOString().slice(0,10);
+$("tgl").addEventListener("change", update);
+
+document.querySelectorAll(".choice").forEach(b => b.addEventListener("click", () => {
+  jenis = b.dataset.k;
+  pilih = {jam:"", tempat:""};
+  $("tTitle").textContent = JUDUL[jenis];
+  chips($("jam"), JAM, "jam");
+  chips($("tempat"), TEMPAT[jenis], "tempat");
+  update(); burst(); show("s3");
+}));
+
+/* musik: baru main setelah tombol ditekan */
+const mbtn = $("musicToggle");
+if (MUSIK_URL) {
+  const audio = new Audio(MUSIK_URL);
+  audio.loop = true;
+  audio.volume = 0.6;
+  mbtn.addEventListener("click", () => {
+    if (audio.paused) {
+      audio.play().then(() => { mbtn.textContent = "⏸ Stop Musik"; }).catch(() => {});
+    } else {
+      audio.pause();
+      mbtn.textContent = "▶ Play Musik";
+    }
+  });
+} else {
+  mbtn.style.display = "none";
+}
+</script>
+</body>
+</html>
